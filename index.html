@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MediaHub Pro</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="logo">🎧 <span>Media</span>Hub</div>
+    <p class="eyebrow">YOUR PERSONAL MEDIA SPACE</p>
+    <h1 id="authTitle">Welcome back</h1>
+    <p class="muted">Local demo account stored in this browser.</p>
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <button class="primary full" id="authBtn">Login</button>
+    <button class="text-btn" id="switchAuth">Create a new account</button>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+<header class="topbar">
+  <div class="logo">🎧 <span>Media</span>Hub</div>
+  <nav>
+    <button class="nav-btn active" data-page="home">Home</button>
+    <button class="nav-btn" data-page="library">Library</button>
+    <button class="nav-btn" data-page="favorites">❤️ Favorites</button>
+    <button class="nav-btn" data-page="social">Social</button>
+  </nav>
+  <div class="user-area"><span id="userLabel"></span><button class="icon-btn" id="themeBtn">🌙</button><button class="ghost" id="logoutBtn">Logout</button></div>
+</header>
+
+<main>
+<section id="home" class="page">
+  <div class="hero">
+    <div>
+      <p class="eyebrow">HTML • CSS • JAVASCRIPT</p>
+      <h1>Your music.<br><span>Your media hub.</span></h1>
+      <p class="hero-copy">Play local MP3/MP4 files, direct media URLs, and embed supported Spotify and YouTube links directly inside your player.</p>
+      <div class="hero-actions"><button class="primary" onclick="document.getElementById('urlInput').focus()">＋ Add Media</button><button class="ghost" onclick="showPage('library')">Open Library</button></div>
+    </div>
+    <div class="hero-note">♪</div>
+  </div>
+
+  <div class="add-card">
+    <div class="section-head"><div><p class="eyebrow">ADD MEDIA</p><h2>Music / Video / Streaming Link</h2></div></div>
+    <div class="url-grid">
+      <input id="urlInput" placeholder="Paste Spotify / YouTube / MP3 / MP4 link here">
+      <input id="titleInput" placeholder="Title (optional)">
+      <button class="primary" id="addUrl">＋ Add Link</button>
+    </div>
+    <div class="or">OR</div>
+    <label class="file-btn">📁 Choose local MP3 / MP4
+      <input id="fileInput" type="file" accept="audio/*,video/*" multiple>
+    </label>
+    <p class="hint">Spotify: copy the song, album or playlist link from Spotify and paste it above. YouTube uses its official player. Direct MP3/MP4 URLs use the built-in player.</p>
+  </div>
+
+  <div class="quick-links">
+    <div class="quick-card"><span>🟢</span><b>Spotify</b><small>Tracks, albums & playlists</small></div>
+    <div class="quick-card"><span>🔴</span><b>YouTube</b><small>Videos & music</small></div>
+    <div class="quick-card"><span>🔵</span><b>Other Links</b><small>Add any social URL</small></div>
+  </div>
+
+  <div class="stats"><div><b id="mediaCount">0</b><span>Media</span></div><div><b id="favCount">0</b><span>Favorites</span></div><div><b id="socialCount">0</b><span>Links</span></div></div>
+</section>
+
+<section id="library" class="page hidden">
+  <div class="section-head"><div><p class="eyebrow">YOUR COLLECTION</p><h2>Media Library</h2></div></div>
+  <div class="toolbar"><input id="search" placeholder="🔎 Search media..."><select id="sort"><option value="new">Newest</option><option value="az">A-Z</option><option value="fav">Favorites</option></select></div>
+  <div id="mediaList" class="media-list"></div>
+</section>
+
+<section id="favorites" class="page hidden">
+  <div class="section-head"><div><p class="eyebrow">SAVED</p><h2>❤️ Favorites</h2></div></div>
+  <div id="favoriteList" class="media-list"></div>
+</section>
+
+<section id="social" class="page hidden">
+  <div class="section-head"><div><p class="eyebrow">CONNECT</p><h2>Social & Music Links</h2></div></div>
+  <div class="social-add"><input id="socialName" placeholder="Name: Spotify / Instagram / Discord..."><input id="socialUrl" placeholder="https://..."><button class="primary" id="addSocial">Add Link</button></div>
+  <div id="socialList" class="social-grid"></div>
+</section>
+</main>
+
+<aside class="player">
+  <div id="embedBox" class="embed-box"></div>
+  <div class="native-box"><audio id="audio"></audio><video id="video" playsinline></video></div>
+
+  <div class="spotify-player">
+    <div class="track-info">
+      <div class="cover" id="cover">♪</div>
+      <div class="track-text">
+        <div class="track-title" id="nowTitle">Nothing selected</div>
+        <div class="track-artist" id="nowMeta">Choose a song or video</div>
+      </div>
+      <button id="favCurrent" class="heart">♡</button>
+    </div>
+
+    <div class="main-controls">
+      <div class="player-controls">
+        <button id="shuffle" title="Shuffle">🔀</button>
+        <button id="prev" title="Previous">⏮</button>
+        <button id="play" class="play" title="Play">▶</button>
+        <button id="next" title="Next">⏭</button>
+        <button id="repeat" title="Repeat">🔁</button>
+      </div>
+      <div class="progress">
+        <span id="cur">0:00</span>
+        <input id="seek" type="range" min="0" max="100" value="0">
+        <span id="dur">0:00</span>
+      </div>
+    </div>
+
+    <div class="player-actions">
+      <span>🔊</span>
+      <input id="volume" type="range" min="0" max="1" step=".01" value="1">
+      <button class="player-link" id="openCurrent" title="Open">↗</button>
+      <button class="player-link" id="download" title="Download">⬇</button>
+    </div>
+  </div>
+</aside>
+<div id="toast"></div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
